@@ -19,7 +19,7 @@ interface CourseNavbarProps {
 export const CourseNavbar = ({
   course,
   progressCount,
-  currentProfile
+
 }: CourseNavbarProps) => {
 
   return (
@@ -29,7 +29,7 @@ export const CourseNavbar = ({
           course={course}
           progressCount={progressCount}
         />
-        <NavbarRoutes currentProfile={currentProfile} />      
+        <NavbarRoutes />      
       </div>
 
   )
