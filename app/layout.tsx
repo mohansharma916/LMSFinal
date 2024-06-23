@@ -9,9 +9,9 @@ import { ToastProvider } from "@/components/providers/toaster-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "EduAir- Education in Air",
+  title: "The Journey Capturer : Capture Every Step of Your Learning Journey",
   description:
-    " Experience the future of online education with our innovative Learning Management System. Accessible, interactive, and cloud-based, EduAir is your gateway to effortless learning. Join now and take your education to new heights!",
+    "The Journey Capturer is a dynamic LMS platform designed to guide and track your educational journey. Capture every step, celebrate achievements, and personalize your learning path with our intuitive and engaging tools. Start your journey today!",
 };
 
 export default function RootLayout({
