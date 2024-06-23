@@ -1,8 +1,6 @@
 "use client";
 
 import toast from "react-hot-toast";
-
-import { UploadDropzone } from "@/lib/uploadthing";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { Input } from "./ui/input";
 import { useState } from "react";
@@ -13,24 +11,17 @@ interface FileUploadProps {
   endpoint: keyof typeof ourFileRouter;
 };
 
-export const FileUpload = ({
+export const VideoUpload = ({
   onChange,
   endpoint
 }: FileUploadProps) => {
 
+
+  const [videoUrl,setVideoUrl]=useState("")
   return (
     <>
-    <UploadDropzone
-      endpoint={endpoint}
-      onClientUploadComplete={(res) => {
-        onChange(res?.[0].url, res?.[0].name);
-      }}
-      onUploadError={(error: Error) => {
-        toast.error(`${error?.message}`);
-      }}
-    />
-
-
+    <Input placeholder="Please Paste Chapter Video Url Here " onChange={(e)=>{setVideoUrl(e.target.value)}} />
+    <Button  onClick={()=>onChange(videoUrl)}>Submit Video</Button>
     </>
 
 

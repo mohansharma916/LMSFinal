@@ -6,12 +6,10 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 interface VideoPlayerProps {
-    playbackId?: string | null;
+    url?: string | null;
     courseId: string;
     chapterId: string;
     nextChapterId?: string;
@@ -21,7 +19,7 @@ interface VideoPlayerProps {
   }
 
 export const VideoPlayer = ({
-    playbackId,
+    url,
     courseId,
     chapterId,
     nextChapterId,
@@ -29,7 +27,7 @@ export const VideoPlayer = ({
     completeOnEnd,
     title,
 }: VideoPlayerProps) => {
-    const [isReady, setIsReady] = useState(false);
+    const [isReady, setIsReady] = useState(url?true:false);
     const router = useRouter();
     const confetti = useConfettiStore();
 
@@ -56,6 +54,10 @@ export const VideoPlayer = ({
         }
     }
 
+    if (!url){
+        return "Url Not Found"
+    }
+
     return (
         <div className="relative aspect-video">
             {!isReady && !isLocked && (
@@ -71,19 +73,9 @@ export const VideoPlayer = ({
                     </p>
                 </div>
             )}
-            {!isLocked && playbackId && (
+            {!isLocked  && (
 
-                <p>Hii</p>
-                // <MuxPlayer
-                //     title={title}
-                //     className={cn(
-                //         !isReady && "hidden"
-                //     )}
-                //     onCanPlay={() => setIsReady(true)}
-                //     onEnded={onEnd}
-                //     autoPlay
-                //     playbackId={playbackId}
-                // />
+            <iframe className="rumble"  height="100%" width="100%" src={url}  allowFullScreen></iframe>
             )}
         </div>
     )

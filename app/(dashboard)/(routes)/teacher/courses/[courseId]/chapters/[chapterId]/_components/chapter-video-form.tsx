@@ -10,10 +10,12 @@ import { useRouter } from "next/navigation";
 import { Chapter, VideoPlatformData } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
-import { FileUpload } from "@/components/file-upload";
+import { VideoUpload } from "@/components/video-upload";
+import VideoPlayer from "@/components/video-player";
+import videojs, { VideoJsPlayerOptions } from "video.js";
 
 interface ChapterVideoFormProps {
-  initialData: Chapter & { muxData?: VideoPlatformData | null };
+  initialData: Chapter
   courseId: string;
   chapterId: string;
 };
@@ -48,6 +50,28 @@ export const ChapterVideoForm = ({
     }
   }
 
+
+  const videoJsOptions: VideoJsPlayerOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: true,
+    fluid: true,
+  };
+
+
+  const handlePlayerReady = (player: videojs.Player) => {
+    console.log('Player is ready: ', player);
+
+    // You can add additional player event listeners here, if needed
+    player.on('waiting', () => {
+      videojs.log('player is waiting');
+    });
+
+    player.on('dispose', () => {
+      videojs.log('player will dispose');
+    });
+  };
+
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4  dark:bg-gray-800 dark:text-slate-300">
       <div className="font-medium flex items-center justify-between">
@@ -80,12 +104,18 @@ export const ChapterVideoForm = ({
             {/* <MuxPlayer
               playbackId={initialData?.muxData?.playbackId || ""}
             />  */}
+
+
+            <iframe className="rumble"  height="100%" width="100%" src={initialData?.videoUrl}  allowFullScreen></iframe>
+
+           {/* <VideoPlayer url={initialData?.videoUrl || ""} options={videoJsOptions} onReady={handlePlayerReady} /> */}
+
           </div>
         )
       )}
       {isEditing && (
         <div>
-          <FileUpload
+          <VideoUpload
             endpoint="chapterVideo"
             onChange={(url) => {
               if (url) {

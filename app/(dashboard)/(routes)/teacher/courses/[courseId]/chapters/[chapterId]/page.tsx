@@ -33,9 +33,6 @@ const ChapterIdPage: React.FC<ChapterIdPageProps> = async ({ params }) => {
         id: params.chapterId,
         courseId: params.courseId,
     },
-    include: {
-        videoPlatformData: true,
-    }
   });
 
   if (!chapter) {
