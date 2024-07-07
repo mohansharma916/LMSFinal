@@ -19,9 +19,9 @@ const ChapterIdPage = async ({
   const { userId } = auth();
 
 
-  if (!userId) {
-    return redirect("/");
-  } 
+  // if (!userId) {
+  //   return redirect("/");
+  // } 
 
   const {
     chapter,
@@ -30,11 +30,19 @@ const ChapterIdPage = async ({
     nextChapter,
     userProgress,
     purchase,
-  } = await getChapter({
+  } = userId ?await getChapter({
     userId,
     chapterId: params.chapterId,
     courseId: params.courseId,
-  });
+  }):await getChapter({
+    chapterId: params.chapterId,
+    courseId: params.courseId,
+  })
+
+
+
+
+
 
   if (!chapter || !course) {
     return redirect("/")
@@ -42,16 +50,21 @@ const ChapterIdPage = async ({
 
 
   const isLocked = !chapter.isFree && !purchase;
-  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+
+  if (userId){
+
+    
+  }
+  // const completeOnEnd = userId &&    !!purchase && !userProgress?.isCompleted 
 
   return ( 
     <div>
-      {userProgress?.isCompleted && (
+      {/* {userId && userProgress?.isCompleted && (
         <Banner
           variant="success"
           label="You already completed this chapter."
         />
-      )}
+      )} */}
       {isLocked && (
         <Banner
           variant="warning"
@@ -67,7 +80,7 @@ const ChapterIdPage = async ({
             nextChapterId={nextChapter?.id}
             url={chapter.videoUrl}
             isLocked={isLocked}
-            completeOnEnd={completeOnEnd}
+            // completeOnEnd={completeOnEnd}
           />
         </div>
         <div>
@@ -80,7 +93,7 @@ const ChapterIdPage = async ({
                 chapterId={params.chapterId}
                 courseId={params.courseId}
                 nextChapterId={nextChapter?.id}
-                isCompleted={!!userProgress?.isCompleted}
+                // isCompleted={!!userProgress?.isCompleted}
               />
             ) : (
               <CourseEnrollButton

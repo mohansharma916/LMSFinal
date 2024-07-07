@@ -1,55 +1,54 @@
-import { auth } from "@clerk/nextjs/server"
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { CheckCircle, Clock, InfoIcon } from "lucide-react";
 
-import { getDashboardCourses } from "@/actions/get-dashboard-courses";
+import { db } from "@/lib/db";
+import { SearchInput } from "@/components/search-input";
+import { getCourses } from "@/actions/get-courses";
 import { CoursesList } from "@/components/courses-list";
+import { Categories } from "./_components/categories";
 
-import { InfoCard } from "./_components/info-card";
-import { BannerCard } from "./_components/banner-card";
+interface SearchPageProps {
+  searchParams: {
+    title: string;
+    categoryId: string;
+  }
+};
 
-export default async function Dashboard() {
+const SearchPage = async ({
+  searchParams
+}: SearchPageProps) => {
   const { userId } = auth();
 
-  console.log(userId)
+ 
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: "asc"
+    }
+  });
 
-  if (!userId) {
 
-    // console.log("hi")
-    return redirect("/sign-in");
-  }
+  const courses = await getCourses({
 
-  const {
-    completedCourses,
-    coursesInProgress
-  } = await getDashboardCourses(userId);
+    userId,
+    ...searchParams,
+  });
+
+
+
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="grid grid-cols-1 gap-4">
-        <BannerCard
-            icon={InfoIcon}
-            label="Welcome to the dashboard"
-            description={`This is where you can see your progress 
-            and continue your courses.`}
-        />
+    <>
+      <div className="px-6 pt-6 md:hidden md:mb-0 block">
+        <SearchInput />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <InfoCard
-          icon={Clock}
-          label="In Progress"
-          numberOfItems={coursesInProgress.length}
+      <div className="p-6 space-y-4">
+        <Categories
+          items={categories}
         />
-        <InfoCard
-          icon={CheckCircle}
-          label="Completed"
-          numberOfItems={completedCourses.length}
-          variant="success"
-        />
+        <CoursesList items={courses} />
       </div>
-      <CoursesList
-        items={[...coursesInProgress, ...completedCourses]}
-      />
-    </div>
-  )
+    </>
+   );
 }
+ 
+export default SearchPage;

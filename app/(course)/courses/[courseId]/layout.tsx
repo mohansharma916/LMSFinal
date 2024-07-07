@@ -17,16 +17,15 @@ const CourseLayout = async ({
   params: { courseId: string };
 }) => {
   const { userId } = auth();
-  if (!userId) {
-    return redirect("/")
-  }
+  // if (!userId) {
+  //   return redirect("/")
+  // }
   // const safeProfile = await getSafeProfile();
 
   // if (!safeProfile) {
   //   return redirect("/");
   // }
-
-  const course = await db.course.findUnique({
+const course=userId? await db.course.findUnique({
     where: {
       id: params.courseId,
     },
@@ -47,13 +46,27 @@ const CourseLayout = async ({
         }
       },
     },
-  });
+  }):await db.course.findUnique({
+    where: {
+      id: params.courseId,
+    },
+    include: {
+      chapters: {
+        where: {
+          isPublished: true,
+        },
+        orderBy: {
+          position: "asc"
+        }
+      },
+    },
+  })
   if (!course) {
     return redirect("/");
   }
 
   // @ts-ignore
-  const progressCount: number = await getProgress(userId, course.id);
+  const progressCount: number = userId?await getProgress(userId, course.id):null
 
   return (
 

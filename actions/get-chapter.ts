@@ -3,7 +3,7 @@ import { Attachement, Chapter } from "@prisma/client";
 
 
 interface getChapterProps {
-    userId: string;
+    userId?: string;
     courseId: string;
     chapterId: string;
 };
@@ -15,7 +15,7 @@ export const getChapter = async ({
 }: getChapterProps) => {
     try {
 
-        const purchase = await db.purchase.findUnique({
+        const purchase = userId && await db.purchase.findUnique({
             where: {
                 userId_courseId: { 
                     userId,
@@ -78,7 +78,7 @@ export const getChapter = async ({
             });
         }
 
-        const userProgress = await db.userProgress.findUnique({
+        const userProgress =userId && await db.userProgress.findUnique({
             where: {
                 userId_chapterId: {
                     userId,

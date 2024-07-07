@@ -35,6 +35,7 @@ export const getCourses = async ({
           },
           select: {
             id: true,
+            position:true
           }
         },
         purchases: {

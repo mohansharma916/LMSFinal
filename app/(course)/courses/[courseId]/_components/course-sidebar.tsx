@@ -10,7 +10,7 @@ import { CourseSidebarItem } from "./course-sidebar-item";
 interface CourseSidebarProps {
   course: Course & {
     chapters: (Chapter & {
-      userProgress: UserProgress[] | null;
+      userProgress?: UserProgress[] | null;
     })[]
   };
   progressCount: number;
@@ -22,16 +22,16 @@ export const CourseSidebar = async ({
 }: CourseSidebarProps) => {
   const { userId } = auth();
 
-  if (!userId) {
-    return redirect("/");
-  }
+  // if (!userId) {
+  //   return redirect("/");
+  // }
 
-  const purchase = await db.purchase.findFirst({
+  const purchase = userId?await db.purchase.findFirst({
     where: {
       userId,
       courseId: course.id
     }
-  });
+  }):null
 
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
@@ -41,10 +41,11 @@ export const CourseSidebar = async ({
         </h1>
         {purchase && (
           <div className="mt-10">
-            <CourseProgress
+           {progressCount &&  <CourseProgress
               variant="success"
               value={progressCount}
             />
+          }
           </div>
         )}
       </div>

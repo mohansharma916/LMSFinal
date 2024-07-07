@@ -14,7 +14,7 @@ interface VideoPlayerProps {
     chapterId: string;
     nextChapterId?: string;
     isLocked: boolean;
-    completeOnEnd: boolean;
+    completeOnEnd?: boolean;
     title: string;
   }
 
