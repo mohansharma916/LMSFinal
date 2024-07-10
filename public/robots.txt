@@ -1,0 +1,36 @@
+User-agent: *
+User-agent: bingbot
+User-agent: googlebot
+User-agent: msnbot
+User-agent: Slurp
+User-agent: DuckDuckBot
+User-agent: Baiduspider
+User-agent: YandexBot
+User-agent: ia_archiver
+User-agent: Alexabot
+User-agent: Mediapartners-Google
+allow: /
+
+User-agent: Httrack
+Disallow: /
+Disallow: /search
+
+
+
+Disallow: /*/reviews/$ 
+
+Disallow: /404
+Disallow: /search/
+
+Disallow: /dashboard/
+
+Disallow: /user/
+
+
+
+
+
+Disallow: /admin
+Disallow: /blog/amp/*
+Disallow: /blog/amp/
+Disallow: /blog/amp
