@@ -2,7 +2,7 @@
 import { UserButton } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogIn, LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 import { useAuth } from "@clerk/nextjs";
@@ -44,6 +44,14 @@ export const NavbarRoutes=  ({
             </Button>
           </Link>
         ) : null}
+        {!userId &&    <Link  href="/sign-in">
+
+<div>
+      Log In
+
+     </div>
+     </Link>}
+      
 
        <UserButton afterSignOutUrl="/" />
       </div>

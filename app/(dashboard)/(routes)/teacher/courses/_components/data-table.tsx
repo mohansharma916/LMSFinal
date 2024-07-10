@@ -59,7 +59,6 @@ export function DataTable<TData, TValue>({
   })
 
 
-  console.log("11")
   return (
     <div>
       <div className="flex items-center py-4 justify-between">
